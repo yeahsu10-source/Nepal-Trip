@@ -18,13 +18,16 @@
 <body class="p-4 md:p-8">
 
     <div id="app" class="max-w-7xl mx-auto space-y-10">
+        
         <header class="py-10 bg-white rounded-[2.5rem] shadow-2xl text-center nepal-header-deco">
             <h1 class="text-4xl md:text-5xl font-black text-red-900 mb-2">尼泊爾之旅 🏔️</h1>
             <p class="text-[10px] text-gray-400 font-bold tracking-[0.4em] uppercase">OFFLINE MODE READY • AUTO-SAVE ACTIVE</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
             <div class="lg:col-span-8 space-y-10">
+                
                 <section class="abc-gradient p-8 rounded-[2.5rem] shadow-2xl text-white">
                     <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-6">
                         <h2 class="text-2xl font-black italic">ABC 徒步細節</h2>
@@ -59,6 +62,7 @@
             </div>
 
             <div class="lg:col-span-4 space-y-8">
+                
                 <div class="tool-card p-6">
                     <h3 class="font-black text-sm uppercase mb-4 text-blue-600">Currency (Wise 18.55)</h3>
                     <input type="number" id="hkd-in" oninput="convert('HKD')" placeholder="HKD" class="input-field mb-4">
@@ -88,6 +92,7 @@
                         <button onclick="uploadFile()" class="w-full bg-yellow-600 text-white py-3 rounded-2xl font-black text-xs">STORE OFFLINE</button>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -108,7 +113,6 @@
             { d: "12/28", e: "返抵香港", r: "完結", done: false }
         ];
 
-        // Fixed SPOTS to include search queries for Google Maps
         const SPOTS = [
             { c: 'Kathmandu', n: 'Mezze by Roadhouse', t: '餐廳' }, { c: 'Kathmandu', n: 'Dorje Restaurant', t: '在地料理' },
             { c: 'Kathmandu', n: 'Mazaaj Restaurant', t: '中東菜' }, { c: 'Kathmandu', n: 'Earth & Flame Tandoori', t: '北印度菜' },
@@ -144,18 +148,18 @@
 
             const groups = SPOTS.reduce((acc, obj) => { acc[obj.c] = acc[obj.c] || []; acc[obj.c].push(obj); return acc; }, {});
             
-            // Fixed MAP links to dynamically generate search URLs
+            // FIX: MAP FUNCTION ADDED HERE
             document.getElementById('loc-container').innerHTML = Object.entries(groups).map(([city, items]) => `
                 <div class="bg-gray-100 p-6 rounded-[2rem]">
                     <h3 class="font-black mb-4">${city}</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         ${items.map(s => `
-                            <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-end">
+                            <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
                                 <div>
                                     <p class="text-xs font-black">${s.n}</p>
                                     <p class="text-[8px] text-gray-300 uppercase">${s.t}</p>
                                 </div>
-                                <a href="https://www.google.com/maps/search/${encodeURIComponent(s.n + ' ' + s.c)}" target="_blank" class="text-[9px] font-bold text-blue-500">MAP →</a>
+                                <a href="https://www.google.com/maps/search/${encodeURIComponent(s.n + ' ' + s.c)}" target="_blank" class="text-[9px] font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">MAP →</a>
                             </div>`).join('')}
                     </div>
                 </div>`).join('');
@@ -203,13 +207,12 @@
             render();
         };
         window.resetExp = () => { if(confirm("Clear all data?")) { expenses = []; render(); } };
-
-        // Fixed multiple file upload logic
+        
+        // FIX: MULTIPLE FILE UPLOAD ADDED HERE
         window.uploadFile = () => {
             const input = document.getElementById('file-input');
             const files = input.files;
             if(files.length === 0) return;
-
             Array.from(files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -218,7 +221,7 @@
                 };
                 reader.readAsDataURL(file);
             });
-            input.value = ""; // Clear input after uploading
+            input.value = "";
         };
 
         window.delDoc = (i) => { docs.splice(i, 1); render(); };
