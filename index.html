@@ -3,221 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nepal Trip Master (Offline & Auto-Save)</title>
+    <title>Nepal Trip - Final Deploy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; color: #1f2937; }
-        .nepal-header-deco { border-bottom: 5px solid #ffaa00; border-image: linear-gradient(to right, #88292F, #FFD700, #88292F) 1; }
-        .abc-gradient { background: linear-gradient(135deg, #88292F 0%, #5a1c1f 100%); }
-        .date-font { font-family: 'JetBrains Mono', monospace; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #fcf6f0; }
+        .abc-header { background-color: #88292F; border-bottom: 4px solid #FFD700; }
         .tool-card { @apply bg-white rounded-[2rem] shadow-xl border border-gray-100 overflow-hidden; }
-        .input-field { @apply w-full p-4 bg-gray-50 border-2 border-transparent rounded-2xl outline-none focus:border-orange-400 focus:bg-white transition-all font-bold text-sm; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body>
 
-    <div id="app" class="max-w-7xl mx-auto space-y-10">
-        
-        <header class="py-10 bg-white rounded-[2.5rem] shadow-2xl text-center nepal-header-deco">
-            <h1 class="text-4xl md:text-5xl font-black text-red-900 mb-2">尼泊爾之旅 🏔️</h1>
-            <p class="text-[10px] text-gray-400 font-bold tracking-[0.4em] uppercase">OFFLINE MODE READY • AUTO-SAVE ACTIVE</p>
-        </header>
+    <div id="app" class="max-w-6xl mx-auto p-4 space-y-8">
+        <section class="abc-header p-8 rounded-[2rem] text-white shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-black">🏔️ ABC 極限徒步</h1>
+                <div class="flex gap-2">
+                    <button onclick="showTrek(1)" class="bg-white text-red-900 px-4 py-1 rounded-full font-black text-xs">D1</button>
+                    <button onclick="showTrek(2)" class="bg-white/20 px-4 py-1 rounded-full font-black text-xs">D2</button>
+                    <button onclick="showTrek(3)" class="bg-white/20 px-4 py-1 rounded-full font-black text-xs">D3</button>
+                </div>
+            </div>
+            <div class="mb-6">
+                <h2 id="trek-title" class="text-xl font-bold text-yellow-400">Jhinu → Bamboo</h2>
+                <p id="trek-desc" class="text-sm opacity-90">途經 Chhomrong 大階梯與 Sinuwa。</p>
+            </div>
+            <div class="bg-black/20 p-4 rounded-xl text-[11px] space-y-1">
+                <p>Sinuwa: Sinuwaa123 | Bamboo: Bamboo222</p>
+                <p>Himalaya: man9766027280 | ABC: blacktea1234</p>
+            </div>
+        </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <div class="lg:col-span-8 space-y-10">
-                
-                <section class="abc-gradient p-8 rounded-[2.5rem] shadow-2xl text-white">
-                    <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-6">
-                        <h2 class="text-2xl font-black italic italic">ABC 徒步細節</h2>
-                        <div class="flex gap-2">
-                            <button onclick="showTrek(1)" class="bg-white text-red-900 px-4 py-1 rounded-lg font-black text-xs">D1</button>
-                            <button onclick="showTrek(2)" class="bg-white/10 px-4 py-1 rounded-lg font-black text-xs">D2</button>
-                            <button onclick="showTrek(3)" class="bg-white/10 px-4 py-1 rounded-lg font-black text-xs">D3</button>
-                        </div>
-                    </div>
-                    <div class="mb-8">
-                        <h3 id="trek-title" class="text-xl font-black text-yellow-400 mb-2">Jhinu → Bamboo</h3>
-                        <p id="trek-desc" class="text-sm opacity-90 leading-relaxed"></p>
-                    </div>
-                    <div class="bg-black/20 p-6 rounded-2xl border border-white/10">
-                        <p class="text-[10px] font-black text-yellow-400 mb-4">📡 WIFI PASSWORDS</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-[10px] font-bold">
-                            <div class="flex justify-between border-b border-white/10 pb-1"><span>Sinuwa Lodge</span><span class="date-font">Sinuwaa123</span></div>
-                            <div class="flex justify-between border-b border-white/10 pb-1"><span>Bamboo Guest</span><span class="date-font">Bamboo222</span></div>
-                            <div class="flex justify-between border-b border-white/10 pb-1"><span>Himalaya Guest</span><span class="date-font">man9766027280</span></div>
-                            <div class="flex justify-between border-b border-white/10 pb-1"><span>ABC Snowland</span><span class="date-font">blacktea1234</span></div>
-                            <div class="flex justify-between border-b border-white/10 pb-1"><span>Annapurna Guest</span><span class="date-font">Jaganras7019</span></div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="bg-white p-8 rounded-[2.5rem] shadow-xl">
-                    <h2 class="text-2xl font-black text-gray-800 mb-6">📅 行程進度表</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                <section class="bg-white p-6 rounded-[2rem] shadow-xl border-t-8 border-orange-500">
+                    <h2 class="text-xl font-black mb-4">📅 行程管理</h2>
                     <div id="itin-list" class="space-y-3"></div>
                 </section>
-
-                <section id="loc-container" class="space-y-8"></section>
+                <div id="loc-container" class="space-y-6"></div>
             </div>
 
-            <div class="lg:col-span-4 space-y-8">
-                
-                <div class="tool-card p-6">
-                    <h3 class="font-black text-sm uppercase mb-4 text-blue-600">Currency (Wise 18.55)</h3>
-                    <input type="number" id="hkd-in" oninput="convert('HKD')" placeholder="HKD" class="input-field mb-4">
-                    <input type="number" id="nrs-in" oninput="convert('NRs')" placeholder="NPR" class="input-field">
+            <div class="space-y-6">
+                <div class="tool-card p-6 border-t-8 border-blue-500">
+                    <h3 class="font-black text-blue-600 mb-4">Wise Rate (18.55)</h3>
+                    <input type="number" id="hkd-in" oninput="convert('HKD')" placeholder="HKD" class="w-full p-2 bg-gray-50 rounded-lg mb-2">
+                    <input type="number" id="nrs-in" oninput="convert('NRs')" placeholder="NPR" class="w-full p-2 bg-gray-50 rounded-lg">
                 </div>
-
-                <div class="tool-card">
-                    <div class="p-6 bg-teal-700 text-white flex justify-between items-center">
-                        <span class="font-black text-xs">EXPENSES</span>
-                        <span id="exp-total" class="font-black">0 NPR</span>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <input type="text" id="exp-item" placeholder="項目 (Item)" class="input-field">
-                        <input type="text" id="exp-use" placeholder="用途 (Category)" class="input-field">
-                        <input type="number" id="exp-amt" placeholder="金額 (Amount)" class="input-field">
-                        <button onclick="addExp()" class="w-full bg-teal-700 text-white py-3 rounded-2xl font-black text-xs">SAVE EXPENSE</button>
-                        <div id="exp-history" class="space-y-2 mt-4 max-h-40 overflow-y-auto pr-2"></div>
-                        <button onclick="resetExp()" class="w-full text-[10px] text-red-400 font-bold mt-2">RESET ALL RECORDS</button>
-                    </div>
+                <div class="tool-card border-t-8 border-teal-600 p-6">
+                    <div class="flex justify-between mb-4"><span class="font-black">EXPENSES</span><span id="exp-total" class="text-teal-600 font-bold">0</span></div>
+                    <input type="text" id="exp-item" placeholder="項目" class="w-full p-2 bg-gray-50 rounded-lg mb-2 text-sm">
+                    <input type="number" id="exp-amt" placeholder="金額" class="w-full p-2 bg-gray-50 rounded-lg mb-2 text-sm">
+                    <button onclick="addExp()" class="w-full bg-teal-700 text-white py-2 rounded-lg font-bold text-xs">SAVE</button>
+                    <div id="exp-history" class="mt-4 space-y-1 text-[10px] max-h-32 overflow-y-auto"></div>
+                    <button onclick="resetExp()" class="w-full text-red-400 text-[10px] mt-2">RESET ALL</button>
                 </div>
-
-                <div class="tool-card">
-                    <div class="p-6 bg-yellow-600 text-white font-black text-xs">DOCUMENT VAULT</div>
-                    <div class="p-6 space-y-4">
-                        <div id="file-list" class="space-y-2 mb-4"></div>
-                        <input type="text" id="file-name" placeholder="File Name" class="input-field text-xs">
-                        <input type="file" id="file-input" class="text-[10px] w-full">
-                        <button onclick="uploadFile()" class="w-full bg-yellow-600 text-white py-3 rounded-2xl font-black text-xs">STORE OFFLINE</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
     <script>
         const RATE = 18.55;
-        
-        // These are the defaults. They will be overwritten by what's in LocalStorage if it exists.
         const defaultItin = [
-            { d: "12/19", e: "香港 → 昆明 (MU9658)", r: "21:15 出發", done: false },
-            { d: "12/20", e: "昆明 → 加德滿都 (MU9617)", r: "轉飛波卡拉", done: false },
-            { d: "12/21", e: "ABC D1 (Jhinu → Bamboo)", r: "Jhinu ➜ Sinuwa", done: false },
-            { d: "12/22", e: "ABC D2 (Bamboo → ABC)", r: "抵達 4130m", done: false },
-            { d: "12/23", e: "ABC D3 (ABC → 波卡拉)", r: "急速下撤", done: false },
-            { d: "12/24", e: "波卡拉自由活動", r: "滑翔傘 / 費瓦湖", done: false },
-            { d: "12/25", e: "波卡拉 → 加德滿都", r: "返程首都", done: false },
-            { d: "12/26", e: "加德滿都古城", r: "猴廟 / 杜巴廣場", done: false },
-            { d: "12/27", e: "回程 (MU9618)", r: "17:10 登機", done: false },
-            { d: "12/28", e: "返抵香港", r: "完結", done: false }
+            { d: "12/19", e: "香港 → 昆明", r: "21:15 出發", done: false },
+            { d: "12/20", e: "加德滿都 → 波卡拉", r: "轉機", done: false },
+            { d: "12/21", e: "ABC D1", r: "Jhinu ➜ Sinuwa", done: false },
+            { d: "12/22", e: "ABC D2", r: "4130m 大本營", done: false },
+            { d: "12/23", e: "ABC D3", r: "下撤返城", done: false }
         ];
 
-        const SPOTS = [
-            { c: 'Kathmandu', n: 'Mezze by Roadhouse', t: '餐廳' }, { c: 'Kathmandu', n: 'Dorje Restaurant', t: '在地料理' },
-            { c: 'Kathmandu', n: 'Mazaaj Restaurant', t: '中東菜' }, { c: 'Kathmandu', n: 'Earth & Flame Tandoori', t: '北印度菜' },
-            { c: 'Kathmandu', n: 'The Old House', t: '法餐' }, { c: 'Kathmandu', n: 'Yala Cafe', t: '咖啡店' },
-            { c: 'Kathmandu', n: 'Fresh Bake Thamel 1', t: '烘焙' }, { c: 'Kathmandu', n: 'Pilgrims Book House', t: '書店' },
-            { c: 'Kathmandu', n: 'LOD - Lord of the Drinks', t: '酒吧' }, { c: 'Kathmandu', n: 'Barc', t: '酒吧' },
-            { c: 'Kathmandu', n: 'Fair circle', t: '公平貿易' }, { c: 'Kathmandu', n: 'Friendly Export', t: '羊絨製品' },
-            { c: 'Pokhara', n: 'The Juicery Cafe', t: '咖啡店' }, { c: 'Pokhara', n: 'Taiwan Cafe', t: '台灣料理' },
-            { c: 'Pokhara', n: 'Cafe Camellia', t: '精品咖啡' }, { c: 'Pokhara', n: 'Nepalaya Handicraft', t: '手工藝' },
-            { c: 'Bhaktapur', n: 'The Peacock Shop', t: '特色紙品' }
-        ];
-
-        const TREK = {
-            1: { t: "Jhinu → Bamboo", d: "挑戰 Chhomrong 2500 級石階。" },
-            2: { t: "Bamboo → ABC (4130m)", d: "行經 MBC 抵達安納普爾納大本營。" },
-            3: { t: "ABC → 返回波卡拉", d: "日出後快速下山，乘坐吉普車。" }
-        };
-
-        // LOAD DATA FROM BROWSER STORAGE OR USE DEFAULTS
-        let itinData = JSON.parse(localStorage.getItem('nepal_itin_v6')) || defaultItin;
-        let expenses = JSON.parse(localStorage.getItem('nepal_exp_v6')) || [];
-        let docs = JSON.parse(localStorage.getItem('nepal_docs_v6')) || [];
+        let itinData = JSON.parse(localStorage.getItem('nepal_v8')) || defaultItin;
+        let expenses = JSON.parse(localStorage.getItem('exp_v8')) || [];
 
         function render() {
-            // Itinerary
-            document.getElementById('itin-list').innerHTML = itinData.map((item, i) => `
-                <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border-l-8 ${item.done ? 'border-green-400 opacity-50' : 'border-orange-400'}">
-                    <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleItin(${i})" class="w-5 h-5 accent-orange-600">
-                    <div>
-                        <span class="text-[9px] font-black text-orange-600">${item.d}</span>
-                        <h4 class="font-black text-sm ${item.done ? 'line-through' : ''}">${item.e}</h4>
-                        <p class="text-[9px] text-gray-400 italic">${item.r}</p>
-                    </div>
-                </div>`).join('');
+            const list = document.getElementById('itin-list');
+            if (list) {
+                list.innerHTML = itinData.map((item, i) => `
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border-l-4 ${item.done ? 'border-green-400 opacity-50' : 'border-orange-400'}">
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleItin(${i})">
+                        <div class="text-xs font-bold">${item.e} <span class="text-gray-400 font-normal">(${item.d})</span></div>
+                    </div>`).join('');
+            }
 
-            // Locations
-            const groups = SPOTS.reduce((acc, obj) => { acc[obj.c] = acc[obj.c] || []; acc[obj.c].push(obj); return acc; }, {});
-            document.getElementById('loc-container').innerHTML = Object.entries(groups).map(([city, items]) => `
-                <div class="bg-gray-100 p-6 rounded-[2rem]">
-                    <h3 class="font-black mb-4">${city}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        ${items.map(s => `<div class="bg-white p-4 rounded-xl shadow-sm"><p class="text-xs font-black">${s.n}</p><p class="text-[8px] text-gray-300 uppercase">${s.t}</p></div>`).join('')}
-                    </div>
-                </div>`).join('');
-
-            // Expense History & Total
-            const total = expenses.reduce((s, e) => s + e.amt, 0);
-            document.getElementById('exp-total').innerText = `${total.toLocaleString()} NPR`;
-            document.getElementById('exp-history').innerHTML = expenses.map((e, i) => `
-                <div class="flex justify-between bg-gray-50 p-2 rounded-lg text-[9px] font-bold">
-                    <span>${e.item} (${e.use})</span>
-                    <span>${e.amt}</span>
-                </div>`).reverse().join('');
-
-            // Files
-            document.getElementById('file-list').innerHTML = docs.map((d, i) => `
-                <div class="flex justify-between p-2 bg-yellow-50 rounded-lg text-[9px] font-black">
-                    <a href="${d.data}" target="_blank">📎 ${d.name}</a>
-                    <button onclick="delDoc(${i})" class="text-red-400">✕</button>
-                </div>`).join('');
-
-            save(); // Every render saves data
+            document.getElementById('exp-total').innerText = expenses.reduce((s, e) => s + e.amt, 0).toLocaleString();
+            document.getElementById('exp-history').innerHTML = expenses.map(e => `<div>${e.item}: ${e.amt}</div>`).reverse().join('');
+            
+            localStorage.setItem('nepal_v8', JSON.stringify(itinData));
+            localStorage.setItem('exp_v8', JSON.stringify(expenses));
         }
 
-        // SAVE LOGIC
-        function save() {
-            localStorage.setItem('nepal_itin_v6', JSON.stringify(itinData));
-            localStorage.setItem('nepal_exp_v6', JSON.stringify(expenses));
-            localStorage.setItem('nepal_docs_v6', JSON.stringify(docs));
-        }
-
-        // INTERACTIVE FUNCTIONS
         window.toggleItin = (i) => { itinData[i].done = !itinData[i].done; render(); };
         window.convert = (s) => {
             const h = document.getElementById('hkd-in'), n = document.getElementById('nrs-in');
             if(s === 'HKD') n.value = (h.value * RATE).toFixed(0);
             else h.value = (n.value / RATE).toFixed(2);
         };
-        window.showTrek = (d) => {
-            document.getElementById('trek-title').innerText = TREK[d].t;
-            document.getElementById('trek-desc').innerText = TREK[d].d;
-        };
         window.addExp = () => {
             const amt = document.getElementById('exp-amt').value;
             const item = document.getElementById('exp-item').value;
-            const use = document.getElementById('exp-use').value;
             if(!amt || !item) return;
-            expenses.push({ amt: parseFloat(amt), item: item, use: use || 'General' });
-            document.getElementById('exp-amt').value = ''; document.getElementById('exp-item').value = '';
+            expenses.push({ amt: parseFloat(amt), item: item });
             render();
         };
-        window.resetExp = () => { if(confirm("Clear all data?")) { expenses = []; render(); } };
-        window.uploadFile = () => {
-            const name = document.getElementById('file-name').value;
-            const file = document.getElementById('file-input').files[0];
-            if(!name || !file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => { docs.push({ name: name, data: e.target.result }); render(); };
-            reader.readAsDataURL(file);
-        };
-        window.delDoc = (i) => { docs.splice(i, 1); render(); };
+        window.resetExp = () => { if(confirm("Reset?")) { expenses = []; render(); } };
 
-        window.onload = () => { render(); showTrek(1); };
+        // Force render on start
+        document.addEventListener('DOMContentLoaded', render);
+        window.onload = render;
     </script>
 </body>
 </html>
