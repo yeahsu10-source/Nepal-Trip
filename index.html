@@ -101,6 +101,7 @@
     <script>
         const RATE = 18.55;
         
+        // These are the defaults. They will be overwritten by what's in LocalStorage if it exists.
         const defaultItin = [
             { d: "12/19", e: "香港 → 昆明 (MU9658)", r: "21:15 出發", done: false },
             { d: "12/20", e: "昆明 → 加德滿都 (MU9617)", r: "轉飛波卡拉", done: false },
@@ -132,11 +133,13 @@
             3: { t: "ABC → 返回波卡拉", d: "日出後快速下山，乘坐吉普車。" }
         };
 
+        // LOAD DATA FROM BROWSER STORAGE OR USE DEFAULTS
         let itinData = JSON.parse(localStorage.getItem('nepal_itin_v6')) || defaultItin;
         let expenses = JSON.parse(localStorage.getItem('nepal_exp_v6')) || [];
         let docs = JSON.parse(localStorage.getItem('nepal_docs_v6')) || [];
 
         function render() {
+            // Itinerary
             document.getElementById('itin-list').innerHTML = itinData.map((item, i) => `
                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border-l-8 ${item.done ? 'border-green-400 opacity-50' : 'border-orange-400'}">
                     <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleItin(${i})" class="w-5 h-5 accent-orange-600">
@@ -147,6 +150,7 @@
                     </div>
                 </div>`).join('');
 
+            // Locations
             const groups = SPOTS.reduce((acc, obj) => { acc[obj.c] = acc[obj.c] || []; acc[obj.c].push(obj); return acc; }, {});
             document.getElementById('loc-container').innerHTML = Object.entries(groups).map(([city, items]) => `
                 <div class="bg-gray-100 p-6 rounded-[2rem]">
@@ -156,6 +160,7 @@
                     </div>
                 </div>`).join('');
 
+            // Expense History & Total
             const total = expenses.reduce((s, e) => s + e.amt, 0);
             document.getElementById('exp-total').innerText = `${total.toLocaleString()} NPR`;
             document.getElementById('exp-history').innerHTML = expenses.map((e, i) => `
@@ -164,21 +169,24 @@
                     <span>${e.amt}</span>
                 </div>`).reverse().join('');
 
+            // Files
             document.getElementById('file-list').innerHTML = docs.map((d, i) => `
                 <div class="flex justify-between p-2 bg-yellow-50 rounded-lg text-[9px] font-black">
                     <a href="${d.data}" target="_blank">📎 ${d.name}</a>
                     <button onclick="delDoc(${i})" class="text-red-400">✕</button>
                 </div>`).join('');
 
-            save();
+            save(); // Every render saves data
         }
 
+        // SAVE LOGIC
         function save() {
             localStorage.setItem('nepal_itin_v6', JSON.stringify(itinData));
             localStorage.setItem('nepal_exp_v6', JSON.stringify(expenses));
             localStorage.setItem('nepal_docs_v6', JSON.stringify(docs));
         }
 
+        // INTERACTIVE FUNCTIONS
         window.toggleItin = (i) => { itinData[i].done = !itinData[i].done; render(); };
         window.convert = (s) => {
             const h = document.getElementById('hkd-in'), n = document.getElementById('nrs-in');
@@ -209,7 +217,6 @@
         };
         window.delDoc = (i) => { docs.splice(i, 1); render(); };
 
-        // Force render after loading everything to prevent blank screens
         window.onload = () => { render(); showTrek(1); };
     </script>
 </body>
