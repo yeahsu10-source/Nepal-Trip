@@ -18,19 +18,16 @@
 <body class="p-4 md:p-8">
 
     <div id="app" class="max-w-7xl mx-auto space-y-10">
-        
         <header class="py-10 bg-white rounded-[2.5rem] shadow-2xl text-center nepal-header-deco">
             <h1 class="text-4xl md:text-5xl font-black text-red-900 mb-2">尼泊爾之旅 🏔️</h1>
             <p class="text-[10px] text-gray-400 font-bold tracking-[0.4em] uppercase">OFFLINE MODE READY • AUTO-SAVE ACTIVE</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
             <div class="lg:col-span-8 space-y-10">
-                
                 <section class="abc-gradient p-8 rounded-[2.5rem] shadow-2xl text-white">
                     <div class="flex justify-between items-center mb-6 border-b border-white/20 pb-6">
-                        <h2 class="text-2xl font-black italic italic">ABC 徒步細節</h2>
+                        <h2 class="text-2xl font-black italic">ABC 徒步細節</h2>
                         <div class="flex gap-2">
                             <button onclick="showTrek(1)" class="bg-white text-red-900 px-4 py-1 rounded-lg font-black text-xs">D1</button>
                             <button onclick="showTrek(2)" class="bg-white/10 px-4 py-1 rounded-lg font-black text-xs">D2</button>
@@ -62,7 +59,6 @@
             </div>
 
             <div class="lg:col-span-4 space-y-8">
-                
                 <div class="tool-card p-6">
                     <h3 class="font-black text-sm uppercase mb-4 text-blue-600">Currency (Wise 18.55)</h3>
                     <input type="number" id="hkd-in" oninput="convert('HKD')" placeholder="HKD" class="input-field mb-4">
@@ -88,12 +84,10 @@
                     <div class="p-6 bg-yellow-600 text-white font-black text-xs">DOCUMENT VAULT</div>
                     <div class="p-6 space-y-4">
                         <div id="file-list" class="space-y-2 mb-4"></div>
-                        <input type="text" id="file-name" placeholder="File Name" class="input-field text-xs">
-                        <input type="file" id="file-input" class="text-[10px] w-full">
+                        <input type="file" id="file-input" multiple class="text-[10px] w-full border-2 border-dashed border-yellow-200 p-4 rounded-xl">
                         <button onclick="uploadFile()" class="w-full bg-yellow-600 text-white py-3 rounded-2xl font-black text-xs">STORE OFFLINE</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -101,7 +95,6 @@
     <script>
         const RATE = 18.55;
         
-        // These are the defaults. They will be overwritten by what's in LocalStorage if it exists.
         const defaultItin = [
             { d: "12/19", e: "香港 → 昆明 (MU9658)", r: "21:15 出發", done: false },
             { d: "12/20", e: "昆明 → 加德滿都 (MU9617)", r: "轉飛波卡拉", done: false },
@@ -115,6 +108,7 @@
             { d: "12/28", e: "返抵香港", r: "完結", done: false }
         ];
 
+        // Fixed SPOTS to include search queries for Google Maps
         const SPOTS = [
             { c: 'Kathmandu', n: 'Mezze by Roadhouse', t: '餐廳' }, { c: 'Kathmandu', n: 'Dorje Restaurant', t: '在地料理' },
             { c: 'Kathmandu', n: 'Mazaaj Restaurant', t: '中東菜' }, { c: 'Kathmandu', n: 'Earth & Flame Tandoori', t: '北印度菜' },
@@ -133,13 +127,11 @@
             3: { t: "ABC → 返回波卡拉", d: "日出後快速下山，乘坐吉普車。" }
         };
 
-        // LOAD DATA FROM BROWSER STORAGE OR USE DEFAULTS
         let itinData = JSON.parse(localStorage.getItem('nepal_itin_v6')) || defaultItin;
         let expenses = JSON.parse(localStorage.getItem('nepal_exp_v6')) || [];
         let docs = JSON.parse(localStorage.getItem('nepal_docs_v6')) || [];
 
         function render() {
-            // Itinerary
             document.getElementById('itin-list').innerHTML = itinData.map((item, i) => `
                 <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border-l-8 ${item.done ? 'border-green-400 opacity-50' : 'border-orange-400'}">
                     <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleItin(${i})" class="w-5 h-5 accent-orange-600">
@@ -150,17 +142,24 @@
                     </div>
                 </div>`).join('');
 
-            // Locations
             const groups = SPOTS.reduce((acc, obj) => { acc[obj.c] = acc[obj.c] || []; acc[obj.c].push(obj); return acc; }, {});
+            
+            // Fixed MAP links to dynamically generate search URLs
             document.getElementById('loc-container').innerHTML = Object.entries(groups).map(([city, items]) => `
                 <div class="bg-gray-100 p-6 rounded-[2rem]">
                     <h3 class="font-black mb-4">${city}</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        ${items.map(s => `<div class="bg-white p-4 rounded-xl shadow-sm"><p class="text-xs font-black">${s.n}</p><p class="text-[8px] text-gray-300 uppercase">${s.t}</p></div>`).join('')}
+                        ${items.map(s => `
+                            <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-end">
+                                <div>
+                                    <p class="text-xs font-black">${s.n}</p>
+                                    <p class="text-[8px] text-gray-300 uppercase">${s.t}</p>
+                                </div>
+                                <a href="https://www.google.com/maps/search/${encodeURIComponent(s.n + ' ' + s.c)}" target="_blank" class="text-[9px] font-bold text-blue-500">MAP →</a>
+                            </div>`).join('')}
                     </div>
                 </div>`).join('');
 
-            // Expense History & Total
             const total = expenses.reduce((s, e) => s + e.amt, 0);
             document.getElementById('exp-total').innerText = `${total.toLocaleString()} NPR`;
             document.getElementById('exp-history').innerHTML = expenses.map((e, i) => `
@@ -169,24 +168,21 @@
                     <span>${e.amt}</span>
                 </div>`).reverse().join('');
 
-            // Files
             document.getElementById('file-list').innerHTML = docs.map((d, i) => `
                 <div class="flex justify-between p-2 bg-yellow-50 rounded-lg text-[9px] font-black">
                     <a href="${d.data}" target="_blank">📎 ${d.name}</a>
                     <button onclick="delDoc(${i})" class="text-red-400">✕</button>
                 </div>`).join('');
 
-            save(); // Every render saves data
+            save();
         }
 
-        // SAVE LOGIC
         function save() {
             localStorage.setItem('nepal_itin_v6', JSON.stringify(itinData));
             localStorage.setItem('nepal_exp_v6', JSON.stringify(expenses));
             localStorage.setItem('nepal_docs_v6', JSON.stringify(docs));
         }
 
-        // INTERACTIVE FUNCTIONS
         window.toggleItin = (i) => { itinData[i].done = !itinData[i].done; render(); };
         window.convert = (s) => {
             const h = document.getElementById('hkd-in'), n = document.getElementById('nrs-in');
@@ -207,14 +203,24 @@
             render();
         };
         window.resetExp = () => { if(confirm("Clear all data?")) { expenses = []; render(); } };
+
+        // Fixed multiple file upload logic
         window.uploadFile = () => {
-            const name = document.getElementById('file-name').value;
-            const file = document.getElementById('file-input').files[0];
-            if(!name || !file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => { docs.push({ name: name, data: e.target.result }); render(); };
-            reader.readAsDataURL(file);
+            const input = document.getElementById('file-input');
+            const files = input.files;
+            if(files.length === 0) return;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    docs.push({ name: file.name, data: e.target.result });
+                    render();
+                };
+                reader.readAsDataURL(file);
+            });
+            input.value = ""; // Clear input after uploading
         };
+
         window.delDoc = (i) => { docs.splice(i, 1); render(); };
 
         window.onload = () => { render(); showTrek(1); };
